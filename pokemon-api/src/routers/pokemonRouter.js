@@ -4,6 +4,7 @@ const Pokedex = require("pokedex-promise-v2");
 const fs = require("fs");
 const path = require("path");
 const checker = require("../helpFunctions/checker");
+const helper = require("../helpFunctions/helper");
 
 const P = new Pokedex();
 const pokemonRouter = express.Router();
@@ -66,7 +67,7 @@ pokemonRouter.get("/", (req, res) => {
     throw new Error("user does not exists");
   }
 
-  const userPokemonList = getUserPokemonList(userDirPath);
+  const userPokemonList = helper.getUserPokemonList(userDirPath);
   res.json(userPokemonList);
 });
 
@@ -74,21 +75,6 @@ async function getPokemonByNameAndFormat(name) {
   let pokemon = await P.getPokemonByName(name);
   pokemon = pokeApiFormating.formatGetPokemonByName(pokemon);
   return pokemon;
-}
-
-function getUserPokemonList(userDirPath) {
-  const userPokemonList = [];
-
-  const userPokemonsPaths = fs
-    .readdirSync(userDirPath)
-    .map((file) => path.join(userDirPath, file));
-
-  for (let pokemonPath of userPokemonsPaths) {
-    const pokemon = JSON.parse(fs.readFileSync(pokemonPath));
-    userPokemonList.push(pokemon);
-  }
-
-  return userPokemonList;
 }
 
 module.exports = pokemonRouter;
