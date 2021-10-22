@@ -3,7 +3,7 @@ const pokeApiFormating = require("../formating/pokeApiFormating");
 const Pokedex = require("pokedex-promise-v2");
 const fs = require("fs");
 const path = require("path");
-const { resolve } = require("path");
+const checker = require("../helpFunctions/checker");
 
 const P = new Pokedex();
 const pokemonRouter = express.Router();
@@ -29,7 +29,7 @@ pokemonRouter.put("/catch/:id", (req, res) => {
   const userDirPath = path.resolve(__dirname, `../users/${userName}`);
   const finalPokemonPath = path.join(userDirPath, `/${pokemonId}.json`);
 
-  if (checkIfPokemonAlreadyCaught(finalPokemonPath)) {
+  if (checker.checkIfPokemonAlreadyCaught(finalPokemonPath)) {
     //   later will handle in error middlewere
     throw new Error("pokemon already caught");
   }
@@ -48,7 +48,7 @@ pokemonRouter.delete("/release/:id", (req, res) => {
     `../users/${userName}/${pokemonId}.json`
   );
 
-  if (checkIfPokemonAlreadyCaught(pokemonPath)) {
+  if (checker.checkIfPokemonAlreadyCaught(pokemonPath)) {
     fs.unlinkSync(pokemonPath);
     res.json(`pokemon ${pokemonId} released for ${userName}`);
   } else {
@@ -61,7 +61,7 @@ pokemonRouter.get("/", (req, res) => {
   const userName = req.get("username");
   const userDirPath = path.resolve(__dirname, `../users/${userName}`);
 
-  if (!checkIfUserExists(userDirPath)) {
+  if (!checker.checkIfUserExists(userDirPath)) {
     //   will handle in error middlewere
     throw new Error("user does not exists");
   }
@@ -74,14 +74,6 @@ async function getPokemonByNameAndFormat(name) {
   let pokemon = await P.getPokemonByName(name);
   pokemon = pokeApiFormating.formatGetPokemonByName(pokemon);
   return pokemon;
-}
-
-function checkIfPokemonAlreadyCaught(finalPokemonPath) {
-  return fs.existsSync(finalPokemonPath);
-}
-
-function checkIfUserExists(userPath) {
-  return fs.existsSync(userPath);
 }
 
 function getUserPokemonList(userDirPath) {
