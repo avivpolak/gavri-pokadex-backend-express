@@ -1,0 +1,27 @@
+{
+  "name": "gavri-pokadex-backend-express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ./pokemon-api/src/index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gavriel44/gavri-pokadex-backend-express.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gavriel44/gavri-pokadex-backend-express/issues"
+  },
+  "homepage": "https://github.com/gavriel44/gavri-pokadex-backend-express#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pokedex-promise-v2": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}
