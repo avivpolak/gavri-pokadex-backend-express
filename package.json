@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/gavriel44/gavri-pokadex-backend-express#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "pokedex-promise-v2": "^3.3.2"
   },

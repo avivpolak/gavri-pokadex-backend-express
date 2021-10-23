@@ -6,39 +6,45 @@ const path = require("path");
 const checker = require("../helpFunctions/checker");
 const helper = require("../helpFunctions/helper");
 const userHandler = require("../middleware/userHandler");
+const e = require("express");
 
 const P = new Pokedex();
 const pokemonRouter = express.Router();
 
 const user = { name: null };
 
-pokemonRouter.use(userHandler(user));
-
 pokemonRouter.use(express.json());
 
 pokemonRouter.get("/get/:id", async (req, res) => {
-  const { id } = req.params;
+  let { id } = req.params;
+
   try {
     const pokemon = await getPokemonByNameAndFormat(id);
+    res.json(pokemon);
   } catch (err) {
     if (err.message === "Request failed with status code 404") {
       throw new Error("not found pokemon");
+    } else {
+      throw err;
     }
   }
-  res.json(pokemon);
 });
 
 pokemonRouter.get("/query", async (req, res) => {
   const name = req.query.name;
   try {
     const pokemon = await getPokemonByNameAndFormat(name);
+    res.json(pokemon);
   } catch (err) {
     if (err.message === "Request failed with status code 404") {
       throw new Error("not found pokemon");
+    } else {
+      throw err;
     }
   }
-  res.json(pokemon);
 });
+
+pokemonRouter.use(userHandler(user));
 
 pokemonRouter.put("/catch/:id", (req, res) => {
   const pokemonId = req.params.id;
