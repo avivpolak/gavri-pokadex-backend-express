@@ -10,7 +10,7 @@ function errorHandler(error, req, res, next) {
   ) {
     res.status(403).json("pokemon already caught or hevent yet been caught");
   } else if (error instanceof ValidationError) {
-    res.status(401).json("invalid user");
+    res.status(401).json("no username header");
   } else {
     res.status(500).json("server error");
   }
