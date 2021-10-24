@@ -15,7 +15,6 @@ app.use("/pokemon", pokemonRouter);
 app.use("/user", userRouter);
 
 app.get("/", (req, res) => {
-  console.log("testtttt");
   res.send("hello");
 });
 

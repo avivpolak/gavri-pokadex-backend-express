@@ -89,7 +89,7 @@ pokemonRouter.get("/", (req, res) => {
     //   will handle in error middlewere
     throw new Error("user does not exists");
   }
-
+  console.log(userDirPath);
   const userPokemonList = helper.getUserPokemonList(userDirPath);
   res.json(userPokemonList);
 });
