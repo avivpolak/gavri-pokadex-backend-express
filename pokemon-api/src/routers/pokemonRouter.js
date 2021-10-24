@@ -15,7 +15,8 @@ const user = { name: null };
 
 pokemonRouter.use(express.json());
 
-pokemonRouter.get("/get/:id", async (req, res) => {
+pokemonRouter.get("/get/:id", async (req, res, next) => {
+  console.log(req.get("username"));
   let { id } = req.params;
 
   try {
@@ -23,23 +24,23 @@ pokemonRouter.get("/get/:id", async (req, res) => {
     res.json(pokemon);
   } catch (err) {
     if (err.message === "Request failed with status code 404") {
-      throw new Error("not found pokemon");
+      next(new Error("not found pokemon"));
     } else {
-      throw err;
+      next(err);
     }
   }
 });
 
-pokemonRouter.get("/query", async (req, res) => {
+pokemonRouter.get("/query", async (req, res, next) => {
   const name = req.query.name;
   try {
     const pokemon = await getPokemonByNameAndFormat(name);
     res.json(pokemon);
   } catch (err) {
     if (err.message === "Request failed with status code 404") {
-      throw new Error("not found pokemon");
+      next(new Error("not found pokemon"));
     } else {
-      throw err;
+      next(err);
     }
   }
 });
