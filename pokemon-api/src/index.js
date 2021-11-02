@@ -7,19 +7,21 @@ const cors = require("cors");
 
 const port = 5000;
 let userName = null;
+const path = require("path");
 
 const app = express();
 app.use(cors());
+app.use("/", express.static(path.resolve("../dist"))); // serve main path as static dir
 
 app.use("/pokemon", pokemonRouter);
 app.use("/user", userRouter);
 
-app.get("/", (req, res) => {
-  res.send("hello");
-});
+// app.get("/", (req, res) => {
+//     res.send("hello");
+// });
 
 app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log(`server running on port ${port}`);
+    console.log(`server running on port ${port}`);
 });
