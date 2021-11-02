@@ -22,6 +22,6 @@ app.use("/user", userRouter);
 
 app.use(errorHandler);
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
     console.log(`server running on port ${port}`);
 });
